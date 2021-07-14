@@ -29,7 +29,7 @@ and the answer file for a set of data graphs and a query set (answer.txt).
 
 Each line of the answer file is as follows.
 ```
-[query ID]: [data graph ID], [data graph ID], ...
+[query ID]: [data graph ID] [data graph ID] ...
 ```
 
 ## Input File Format
