@@ -13,14 +13,18 @@ Options:
 
 To run the program:
 ```
-./DCQ -d [data file] -q [query file]
+./DCQ -m all -f [data file] -q [query file] 
+```
+To compute the average false positive ratio of each technique used in our index:
+```
+./DCQ -m filter -f [data file] -q [query file]
 ```
 
 ## Running Example
 ```
-./DCQ -d data/amazon_D4000_d2.igraph -q query/amazon_d2.igraph
-./run_amazon.sh   //a batch script for amazon
-./run_hprd.sh     //a batch script for HPRD
+./DCQ -m all -f data/amazon_D4000_d2.igraph -q query/amazon_d2.igraph
+./scripts/run_amazon.sh   //a batch script for amazon
+./scripts/run_hprd.sh     //a batch script for HPRD
 ```
 
 ## Results
