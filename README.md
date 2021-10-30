@@ -1,17 +1,15 @@
 # DCQ
 Efficient Graph Isomorphism Query Processing using Degree Sequences and Color-Label Distributions
 
-## Binary File
-- DCQ: The binary file of DCQ for linux (CentOS release 6.5)
-
 ## Usage
 Options:
 ```
--d,   specify the file containing data graphs
+-m,   specify the mode
+-f,   specify the file containing data graphs
 -q,   specify the file containing query graphs
 ```
 
-To run the program:
+To run the program for graph isomorphism query processing:
 ```
 ./DCQ -m all -f [data file] -q [query file] 
 ```
