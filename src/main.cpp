@@ -428,12 +428,13 @@ sumSortTime += timer.end();
             int num_queries = 0;
             int num_candidates = 0;
 
+			vector<vector<int> > answer;
+
 			initReadGraphs();
 			while( readGraphs(queryFile, query, id) ) {
-                #ifdef VERBOSE
-                cout << id << ": ";
-                #endif
                 ++num_queries;
+                vector<int> ans;
+
                 Refinement cr;
                 Coloring* coloring = nullptr;
                 pair<int, int> range = make_pair(0, -1);
@@ -528,12 +529,10 @@ candTime = timer.end();
 sumCandTime += candTime;
 
                 if (range.first >= range.second) { 
-                    #ifdef VERBOSE
-                    cout << endl;
-                    #endif
                     checkTime = 0; 
                     ++num_query_graphs_not_found;
                     ++no_candidates;
+                    answer.push_back(ans);
                     continue;
                 } else {
                     num_candidates += (range.second - range.first);
@@ -547,31 +546,22 @@ timer.start();
                 tt.start();
                 #endif
 
-                #ifdef VERBOSE
-                vector<int> matches;
-                #endif
 				for (int32_t i = range.first; i < range.second; ++i) {
 					bool same = alg.run(query, index[i].g, coloring, index[i].coloring, cr.getNumTreeNodeSingle());
 					if (same) {
                         ++_num_matches;
-                        #ifdef VERBOSE
-                        matches.push_back(index[i].id);
-                        #endif
+                        ans.push_back(index[i].id);
 					}
 				}
-                #ifdef VERBOSE
-                sort(matches.begin(), matches.end());
-                for (const int& m: matches) {
-                    cout << m << ' ';
-                }
-                cout << endl;
-                #endif
 
                 #ifdef BREAKDOWN
                 sum_backtrack_time += tt.end();
                 #endif
 checkTime = timer.end();
 sumCheckTime += checkTime;
+
+                answer.push_back(ans);
+
 				clearGlobal();
 
                 if (_num_matches == 0) {
@@ -602,6 +592,19 @@ sumCheckTime += checkTime;
             // cout << "# check colorings: " << num_check_colorings << endl;
             // cout << "# backtracks: " << num_backtracks << endl;
             cout << "avg. # matches: " << static_cast<double>(num_matches) / static_cast<double>(num_queries - num_query_graphs_not_found) << endl;
+
+			ofstream out("answer.txt");
+			for(int i = 0; i < answer.size(); ++i) {
+				out << i << ": ";
+				sort(answer[i].begin(), answer[i].end());
+				for(int j = 0; j < answer[i].size(); ++j) {
+					out << answer[i][j];
+					if( j < answer[i].size() - 1 )
+						out << " ";
+				}
+				out << endl;
+			}
+			out.close();
             
             #ifdef BREAKDOWN
             cout << "breakdown" << endl;
